@@ -1,21 +1,25 @@
 #! /bin/bash
-
+# Remote Update
+# Paul Hartman
+#
+# Program used to update web site from development system. Replacement for update.sh
 
 # Settings
     #LOCAL WORKING DIRECTORY
-    LOCAL_DIR=~/working/web/hartman
+    LOCAL_DIR=~/Local/Dir
 
     # SSH SETTINGS
     REMOTE_SERVER=www.hartmanandcompany.us
-    REMOTE_USER=ubuntu
-    KEY=~/Documents/AlphaStoreFixtures.pem
-    REMOTE_DIR=/var/www/html
+    REMOTE_USER=user_name
+    KEY=/path/to/key
+    REMOTE_DIR=/remote/working/directory
 
     # Other stuff
     NOW=$(date +"%m_%d_%Y")
 
 #ERROR CHECKING
     #Thanks to www.shellscript.sh for this little bit
+    # Full example can be found in Error_Check2
     check_errs()
 {
   # Function. Parameter 1 is the return code
