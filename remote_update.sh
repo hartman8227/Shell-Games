@@ -37,7 +37,7 @@
         tar -cf update.tar $LOCAL_DIR
         check_errs $? "TAR Failed"
     # TRANSFER TO REMOTE SERVER
-        scp -i $KEY $LOCAL_DIR/update.tar $REMOTE_USER@REMOTE_SERVER $REMOTE_DIR
+        scp -i $KEY $LOCAL_DIR/update.tar $REMOTE_USER@REMOTE_SERVER:$REMOTE_DIR
         check_errs $? "File transfer failed"
     # DELETE LOCAL ARCHIVE
         rm $LOCAL_DIR/update.tar
