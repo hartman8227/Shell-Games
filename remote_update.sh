@@ -9,7 +9,7 @@
 		LOCAL_DIR=~/Local/Dir
 
 		# SSH SETTINGS
-		REMOTE_SERVER=www.hartmanandcompany.us
+		REMOTE_SERVER=www.servername.com
 		REMOTE_USER=user_name
 		KEY=/path/to/key
 		REMOTE_DIR=/remote/working/directory
@@ -42,10 +42,13 @@
 		# DELETE LOCAL ARCHIVE
 				rm $LOCAL_DIR/update.tar
 				check_errs $? "DANGER: CHECK FILE SYSTEM AND WORKING DIRECTORY! Deleting update failed!"
-				# Backup remote Directory
-				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER 'tar -cf $REMOTEDIR/website_backup_$NOW; '
+		# Backup remote Directory
+				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER "tar -cf $REMOTEDIR/website_backup_$NOW;"
 				check_errs $? "problem making backup"
-				# UNPACK ARCHIVE
-				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER 'tar -xf $REMOTEDIR/update.tar; '
+		# UNPACK ARCHIVE
+				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER "tar -xf $REMOTE_DIR/update.tar; "
 				check_errs $? "problem unpacking update" # there has to be a better way then this.
+		# WE SHOULD REALLY REMOVE THE UPDATE TARBALL NOW.
+				ssh -i $KEY $REMOTE_USER@REMOTE_SERVER "rm $REMOTE_DIR/update.tar"
+				check_errs $? "Why, oh why! Either the connection has failed or the removal of the update package has failed."
 				exit 0
