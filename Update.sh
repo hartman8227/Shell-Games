@@ -11,15 +11,15 @@
 # Name and location of the backup file
 CONDOM=/home/ubuntu/backups/hartman-$(date +%Y%m%d).tar
 # Upload loacation and file
-UPLOAD=/home/ubuntu/Upload/
+UPLOAD=/home/ubuntu/upload
 # Publishing location
-FINAL=/var/www/html/
+FINAL=/var/www/resume/
 # Package Name (haven't figured out how to use this yet)
 TARBALL=update.tar
 
 # Internal Stuff
-HI=$UPLOAD$TARBALL
-FI=$FINAL$TARBALL
+HI="$UPLOAD/$TARBALL"
+FI="$FINAL/$TARBALL"
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root"
