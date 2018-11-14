@@ -3,52 +3,10 @@
 # Paul Hartman
 #
 # Program used to update web site from development system. Replacement for update.sh
+# I'll just go ahead and say it. I'm occasionally a dammed moron. Much more elegant.
+rsync -vrze ssh ~/local/directory username@server.com:/remote/directory
 
-# Settings
-		#LOCAL WORKING DIRECTORY
-		LOCAL_DIR=~/Local/Dir
-
-		# SSH SETTINGS
-		REMOTE_SERVER=www.servername.com
-		REMOTE_USER=user_name
-		KEY=/path/to/key
-		REMOTE_DIR=/remote/working/directory
-
-		# Other stuff
-		NOW=$(date +"%m_%d_%Y")
-
-#ERROR CHECKING
-		#Thanks to www.shellscript.sh for this little bit
-		# Full example can be found in Error_Check2
-		check_errs()
-{
-	# Function. Parameter 1 is the return code
-	# Para. 2 is text to display on failure.
-	if [ "${1}" -ne "0" ]; then
-		echo "ERROR # ${1} : ${2}"
-		# as a bonus, make our script exit with the right error code.
-		exit ${1}
-	fi
-}
-
-# MAIN PROGRAM
-
-		# BUILD UPLOAD ARCHIVE
-				tar -cf update.tar $LOCAL_DIR
-				check_errs $? "The TARDIS failed to launch. FAILED TO CREATE TARBALL."
-		# TRANSFER TO REMOTE SERVER
-				scp -i $KEY $LOCAL_DIR/update.tar $REMOTE_USER@REMOTE_SERVER:$REMOTE_DIR
-				check_errs $? "File transfer failed"
-		# DELETE LOCAL ARCHIVE
-				rm $LOCAL_DIR/update.tar
-				check_errs $? "DANGER: CHECK FILE SYSTEM AND WORKING DIRECTORY! Deleting update failed!"
-		# Backup remote Directory
-				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER "tar -cf $REMOTEDIR/website_backup_$NOW;"
-				check_errs $? "problem making backup"
-		# UNPACK ARCHIVE
-				ssh -i $KEY $REMOTE_USER@$REMOTE_SERVER "tar -xf $REMOTE_DIR/update.tar; "
-				check_errs $? "problem unpacking update" # there has to be a better way then this.
-		# WE SHOULD REALLY REMOVE THE UPDATE TARBALL NOW.
-				ssh -i $KEY $REMOTE_USER@REMOTE_SERVER "rm $REMOTE_DIR/update.tar"
-				check_errs $? "Why, oh why! Either the connection has failed or the removal of the update package has failed."
-				exit 0
+# For passwordless access to work, setup cofig file in .ssh/config file
+# Host hostname
+#     User username
+#     IdentityFile ~/.ssh/somekey
